@@ -69,7 +69,7 @@ getAll.onsuccess = function() {
           }
           // open one more transaction
           const transaction = db.transaction(['new_budget'], 'readwrite');
-          // access the new_pizza object store
+          // access the budgettracker object store
           const BTObjectStore = transaction.objectStore('budgettracker');
           // clear all items in your store
           BTObjectStore.clear();
@@ -82,3 +82,5 @@ getAll.onsuccess = function() {
     }
   };
   }
+
+  window.addEventListener('online', uploadBudget);
