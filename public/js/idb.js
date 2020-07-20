@@ -7,7 +7,7 @@ const request = indexedDB.open('budgettracker', 1);
 request.onupgradeneeded = function(event) {
     // save a reference to the database 
     const db = event.target.result;
-    // create an object store (table) called `new_pizza`, set it to have an auto incrementing primary key of sorts 
+    // create a (table) called `new_budget`
     db.createObjectStore('new_budget', { autoIncrement: true });
   };
 
@@ -18,8 +18,7 @@ request.onsuccess = function(event) {
   
     // check if app is online, if yes run uploadPizza() function to send all local db data to api
     if (navigator.onLine) {
-      // we haven't created this yet, but we will soon, so let's comment it out for now
-      // uploadPizza();
+      uploadBudget();
     }
   };
   
@@ -34,7 +33,7 @@ function saveRecord(record) {
     const transaction = db.transaction(['new_budget'], 'readwrite');
   
     // access the object store for `budgettracker`
-    const BTObjectStore = transaction.objectStore('budgettracker');
+    const BTObjectStore = transaction.objectStore('new_budget');
   
     // add record to your store with add method
     BTObjectStore.add(record);
@@ -45,7 +44,7 @@ function saveRecord(record) {
     const transaction = db.transaction(['new_budget'], 'readwrite');
   
     // access your object store
-    const BTObjectStore = transaction.objectStore('budgettracker');
+    const BTObjectStore = transaction.objectStore('new_budget');
   
     // get all records from store and set to a variable
     const getAll = BTObjectStore.getAll();
@@ -70,11 +69,11 @@ getAll.onsuccess = function() {
           // open one more transaction
           const transaction = db.transaction(['new_budget'], 'readwrite');
           // access the budgettracker object store
-          const BTObjectStore = transaction.objectStore('budgettracker');
+          const BTObjectStore = transaction.objectStore('new_budget');
           // clear all items in your store
           BTObjectStore.clear();
 
-          alert('All saved pizza has been submitted!');
+          alert('Budgets Submitted Offline Have Been Reflected!');
         })
         .catch(err => {
           console.log(err);
